@@ -1,0 +1,6 @@
+
+
+ROOT = "ROOT"
+SON = "DOWN_ARROW"
+PARENT = "UP_ARROW"
+PREP = ["IN"]
