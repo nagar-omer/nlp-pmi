@@ -11,7 +11,8 @@ WIN = "window"          # all words in window of 5 words
 TREE = "semantic_tree"  # related words in semantic tree
 
 # params PMI algorithm
-WORD_COUNT_BAR = 5    # min word count threshold
+WORD_TOP_BAR = 30    # min word count threshold
+WORD_BOTTOM_BAR = 5    # min word count threshold
 FEATURE_FREQ_BAR = 1  # min feature count threshold
 CO_OCCURRENCE_BAR = 1  # min co occurrence threshold
 
