@@ -1,4 +1,4 @@
-from utils.parameters import ROOT, SON, PARENT
+from utils.parameters import ROOT, SON, PARENT, SENTENCE, WIN, TREE
 
 
 class Sentence:
@@ -14,8 +14,11 @@ class Sentence:
         self._tree = semantic_tree
 
     # semantic_tree_parse: create list of connections for each word (P: parent, S:Son)
-    #       "a"                      "yellow"                         "garbage"                                                       "can"
-    # [<"a", <"det", P>>] , [<"garbage", <"amod", P>>], [<"a", <"det", S>>, <"yellow", <"amod", S>>, <"can", <"nsubj", P>>], ["garbage", <"nsubj", S>>]
+    #       "a"                      "yellow"
+    # [<"a", <"det", P>>] , [<"garbage", <"amod", P>>],
+    # ...
+    #               "garbage"                                                       "can"
+    # [<"a", <"det", S>>, <"yellow", <"amod", S>>, <"can", <"nsubj", P>>], ["garbage", <"nsubj", S>>]
     def _parse_semantic_tree(self):
         words_semantics = [[] for _ in self._all_words]  # create list of semantics for eac word
         for i, (parent_idx, context) in enumerate(self._tree):
@@ -35,31 +38,31 @@ class Sentence:
                     words_semantics[i].append((self._lemma[parent_prep], (context, PARENT)))
         return words_semantics
 
-    def words_semantics(self, semantic_type="sentence"):
-        if semantic_type == "sentence":
+    def words_semantics(self, semantic_type=SENTENCE):
+        if semantic_type == SENTENCE:
             for i, lem in enumerate(self._lemma):
                 yield self._all_words[i], lem, self._lemma[:i] + self._lemma[i+1:]
 
-        if semantic_type == "win":
+        if semantic_type == WIN:
             for i, lem in enumerate(self._lemma):
                 yield self._all_words[i], lem, self._lemma[i-2:i] + self._lemma[i+1:i+3]
 
-        if semantic_type == "tree":
+        if semantic_type == TREE:
             words_semantics = self._parse_semantic_tree()
             for i, lem in enumerate(self._lemma):
                 yield self._all_words[i], lem, words_semantics[i]
 
 
 if __name__ == "__main__":
-    words =  ["a", "yellow", "garbage", "can"]
-    lemma_words =  ["a", "yellow", "garbage", "can"]
+    words = ["a", "yellow", "garbage", "can"]
+    lemma_words = ["a", "yellow", "garbage", "can"]
     is_prep = [False, False, False, False]
     tree = [(2, "det"), (2, "amod"), (3, "nsubj"), (-1, ROOT)]
     s = Sentence(words, lemma_words, is_prep, tree)
 
-    sen = [i for i in s.words_semantics(semantic_type="sentence")]
-    win = [i for i in s.words_semantics(semantic_type="win")]
-    tr = [i for i in s.words_semantics(semantic_type="tree")]
+    sen = [i for i in s.words_semantics(semantic_type=SENTENCE)]
+    win = [i for i in s.words_semantics(semantic_type=WIN)]
+    tr = [i for i in s.words_semantics(semantic_type=TREE)]
 
     e = 0
 
