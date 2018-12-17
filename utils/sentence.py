@@ -14,8 +14,8 @@ class Sentence:
         self._tree = semantic_tree
 
     # semantic_tree_parse: create list of connections for each word (P: parent, S:Son)
-    #       "a"                      "yellow"
-    # [<"a", <"det", P>>] , [<"garbage", <"amod", P>>],
+    #            "a"                      "yellow"
+    # [<"garbage", <"det", P>>] , [<"garbage", <"amod", P>>],
     # ...
     #               "garbage"                                                       "can"
     # [<"a", <"det", S>>, <"yellow", <"amod", S>>, <"can", <"nsubj", P>>], ["garbage", <"nsubj", S>>]

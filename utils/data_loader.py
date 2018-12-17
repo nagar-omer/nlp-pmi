@@ -26,7 +26,7 @@ class SemanticsDataLoader:
         data = []
         lemma_count = {}
         total_samples = 0
-        src = open(src_file, "rt")
+        src = open(src_file, "rt", encoding="utf-8")
         # init lists
         words = []
         lemma_words = []
@@ -55,7 +55,7 @@ class SemanticsDataLoader:
 
 
 if __name__ == "__main__":
-    dl = SemanticsDataLoader(os.path.join("..", "data", "wiki_sample"))
+    dl = SemanticsDataLoader(os.path.join("..", "data", "wikipedia.txt"))
     data = [i for i in dl.data(semantic_type="tree")]
 
     e = 0
